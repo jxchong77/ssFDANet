@@ -39,9 +39,6 @@ args = sys.argv[1]
 
 test_dataset = str(args)
 
-# live_path   = '/shared/shared/3Dmask/'+test_dataset+'_images_live.npy'
-# spoof_path  = '/shared/shared/3Dmask/'+test_dataset+'_images_spoof.npy'
-
 live_path   = '/shared/shared/domain-generalization/'+test_dataset+'_images_live.npy'
 spoof_path  = '/shared/shared/domain-generalization/'+test_dataset+'_images_spoof.npy'
 
@@ -74,7 +71,6 @@ print("spoof_path", spoof_path)
 import glob
 length = len(glob.glob(model_path+"*.tar")) 
 
-#results_filename is split of model_path on '/' and last element
 results_filename = model_path.split('/')[-2]
 print(results_filename)
 file_handler = logging.FileHandler(filename='/home/Jxchong/icme_ext/logger/test/'+results_filename + '_' + test_dataset +'.log')
@@ -86,7 +82,6 @@ logging.basicConfig(level=logging.INFO, format=date, handlers=handlers)
 
 record = [1,100,100,100,100]
 with torch.no_grad():
-    # for epoch in reversed(range(1,length)):
     for epoch in (range(1,length)):
         FASNet_path = model_path + str(epoch) + ".tar"
 
@@ -107,19 +102,10 @@ with torch.no_grad():
             images, labels = data
             images = images.to(device_id)
             label_pred = FASNet(NormalizeData_torch(images))
-            
-            #calculate score with the sum of all channels and pixels
-            # score = torch.mean(label_pred, dim=(1,2,3)).cpu().data.numpy()
-
-            # score = F.softmax(label_pred, dim=1).cpu().data.numpy()[:, 0]  # multi class
             score = torch.sigmoid(label_pred).cpu().data.numpy().squeeze()  # binary class
             for j in range(images.size(0)):
                 score_list_ori.append(score[j]) 
                 label_list.append(labels[j])
-
-
-        # print(max(score_list_ori), min(score_list_ori))
-        # score_list_ori = NormalizeData(score_list_ori)
 
         for i in range(0, len(label_list)):
             Total_score_list_cs.append(score_list_ori[i]) 
