@@ -86,7 +86,7 @@ mkdir(results_path)
 
 
 
-batch_size = random.choice([3])
+batch_size = 3
 log_step = 20
 model_save_step = 1
 model_save_epoch = 1
@@ -105,15 +105,15 @@ criterionMSE = torch.nn.MSELoss().to(device_id)
 criterion_cosine = nn.CosineSimilarity().to(device_id)
 
 num_epochs = 5
-lr = random.choice([2e-2])
+lr = 2e-2
 
 step_size = 5
 gamma = 0.8
 
-betasA = random.choice([0.3])
-betasB = random.choice([0.5])
+betasA = 0.3
+betasB = 0.5
 
-optimizers = random.choice([optim.NAdam])
+optimizers = optim.NAdam
 
 optimizer_fas =     optimizers(Fas_Net.parameters(), lr=lr, betas=(betasA, betasB))
 optimizer_fwt =     optimizers(Fas_Net.parameters(), lr=lr, betas=(betasA, betasB))
