@@ -86,7 +86,7 @@ mkdir(results_path)
 
 
 
-batch_size = 3
+batch_size = 4
 log_step = 20
 model_save_step = 1
 model_save_epoch = 1
@@ -105,7 +105,7 @@ criterionMSE = torch.nn.MSELoss().to(device_id)
 criterion_cosine = nn.CosineSimilarity().to(device_id)
 
 num_epochs = 5
-lr = 2e-2
+lr = 5e-3
 
 step_size = 5
 gamma = 0.8
@@ -303,4 +303,5 @@ for epoch in range(num_epochs):
         optimizer_fas.param_groups[0]['lr'],
         optimizer_fwt.param_groups[0]['lr'],
         optimizer_adain.param_groups[0]['lr']
+
     ))
